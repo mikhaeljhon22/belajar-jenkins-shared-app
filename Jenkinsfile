@@ -1,8 +1,9 @@
 pipeline {
     agent none
 
-    stages{
-        stage("Prepare"){
+      
+    stages {
+          stage("Prepare"){
             agent{
                 node{
                     label "linux & java11"
@@ -14,8 +15,7 @@ pipeline {
              echo("Start Build : ${env.BUILD_ID}")
            }
         }
-    }
-    stages {
+        
         stage('Build') {
               agent {
         node{
