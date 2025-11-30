@@ -10,6 +10,11 @@ pipeline {
                 echo "Hello Build"
                 sleep(5)
                 echo "Bangun dari 5 detik"
+              script{
+                for(int i=0; i<5; i++){
+                    echo "perulangan ke ${i}"
+                }
+              }
             }
         }
 
