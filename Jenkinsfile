@@ -25,7 +25,7 @@ pipeline {
                 echo "Bangun dari 5 detik"
             script{
                 def data : ArrayList = ['andi','budi','caca','dodi','erik']
-                writeJSOn(file: 'data.json', json:data)
+                writeJSON(file: 'data.json', json:data)
             }
             }
         }
