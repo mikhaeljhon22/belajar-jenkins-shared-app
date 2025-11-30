@@ -1,11 +1,12 @@
 pipeline {
-    agent {
+    agent none
+    stages {
+        stage('Build') {
+              agent {
         node{
             label "linux && java11"
         }
     }
-    stages {
-        stage('Build') {
             steps {
                 echo "Hello Build"
                 sleep(5)
@@ -19,6 +20,11 @@ pipeline {
         }
 
  stage('Test') {
+      agent {
+        node{
+            label "linux && java11"
+        }
+    }
             steps {
                 echo "Hello Test"
                 sleep(5)
@@ -34,6 +40,11 @@ pipeline {
         }
 
  stage('Deploy') {
+      agent {
+        node{
+            label "linux && java11"
+        }
+    }
             steps {
                 echo "Hello Deploy"
                 sleep(5)
