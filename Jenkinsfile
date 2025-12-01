@@ -44,6 +44,7 @@ pipeline {
             agent { label "linux && java11" }
             steps {
                 echo "Prepare Java"
+                sleep(5)
             }
         }
 
@@ -51,6 +52,7 @@ pipeline {
             agent { label "linux && java11" }
             steps {
                 echo "Prepare Maven"
+                sleep(5)
             }
         }
 
