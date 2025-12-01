@@ -3,12 +3,33 @@ pipeline {
     environment{
         AUTHOR = "Mikhael"
     }
-
+    parameters{
+        string(name: 'NAME', defaultValue: 'Mikhael', description: 'Siapa nama anda?')
+        text(name: 'DESC', defaultValue: 'Ini adalah deskripsi', description: 'Masukkan deskripsi anda')
+        booleanParam(name: 'FLAG', defaultValue: true, description: 'Apakah anda setuju?')
+        choice(name: 'CHOICE', choices: ['Option 1', 'Option 2', 'Option 3'], description: 'Pilih salah satu opsi')
+        password(name: 'SECRET', defaultValue: 'secret', description: 'Masukkan password rahasia')
+    }
     options {
         disableConcurrentBuilds()
         timeout(time:10, unit:'MINUTES')
     }
     stages {
+        stage("Parameter"){
+             agent {
+                node{
+                 label "linux && java11" 
+                 }
+             }
+             steps{
+                echo "Nama Anda : ${params.NAME}"
+                echo "Deskripsi : ${param.DESC}"
+                echo "Flag : ${params.FLAG}"
+                echo "Pilihan Anda : ${params.CHOICE}"
+                echo "Secret : ${params.SECRET}"
+                
+             }
+        }
         stage("Prepare") {
             agent { label "linux && java11" } 
             steps {
