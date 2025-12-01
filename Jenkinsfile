@@ -1,4 +1,4 @@
-@Library("belajar-jenkins-shared@main") _
+@Library("belajar-jenkins-shared") _
 
 pipeline{
     agent any
