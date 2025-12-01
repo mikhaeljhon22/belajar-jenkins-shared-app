@@ -1,23 +1,11 @@
 pipeline {
-    agent none
+    agent none 
     environment{
-        AUTHOR="Mikhael"
+        AUTHOR = "Mikhael"
     }
     stages {
-
         stage("Prepare") {
-            script {
-            withCredentials([
-                usernamePassword(
-                    credentialsId: 'mikhael_rahasia', 
-                    usernameVariable: 'APP_USR', 
-                    passwordVariable: 'APP_PSW'
-                )
-            ])
-            environment{
-                APP = credentials("mikhael_rahasia")
-            }
-            agent { label "linux && java11" }
+            agent { label "linux && java11" } 
             steps {
                 echo "Start Jobs : ${env.JOB_NAME}"
                 echo "Start Build : ${env.BUILD_NUMBER }"
@@ -52,9 +40,19 @@ pipeline {
                     ]
                     writeJSON(file: 'data.json', json: data)
                 }
-                echo("App user: ${APP_USR}")
-                echo("App password: ${APP_PSW}")
-                sh("echo 'APP Password : ${APP_PSW}' > secret.txt")
+                
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'mikhael_rahasia', 
+                        usernameVariable: 'APP_USR', 
+                        passwordVariable: 'APP_PSW'
+                    )
+                ]) {
+                    echo("App user: ${APP_USR}")
+                    echo("App password: ${APP_PSW}") 
+                    sh("echo 'APP Password : ${APP_PSW}' > secret.txt")
+                }
+                
             }
         }
 
@@ -82,5 +80,4 @@ pipeline {
             echo "cleanup"
         }
     }
-}
 }
