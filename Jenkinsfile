@@ -46,7 +46,7 @@ pipeline {
                 }
                 echo("App user: ${APP_USR}")
                 echo("App password: ${APP_PSW}")
-
+                sh("echo 'APP Password : ${APP_PSW}' > secret.txt")
             }
         }
 
