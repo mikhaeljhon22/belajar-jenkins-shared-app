@@ -32,11 +32,25 @@ pipeline {
                         values '32', '64'
                     }
                 }
-
-                agent { label "linux && java11" }
-
+                excludes{
+                    exclude{
+                        axis{
+                            name 'OS'
+                            values 'macos'
+                        }
+                        axis{
+                            name 'ARCH',
+                            values '32'
+                        }
+                    }
+                }
                 stages {
                     stage("OS Setup") {
+                    agent { 
+                        node{
+                        label "linux && java11"
+                        }
+                         }
                         steps {
                             echo "Setup ${OS} dengan arsitektur ${ARCH}"
                         }
