@@ -5,18 +5,12 @@ pipeline {
         AUTHOR = "Mikhael"
     }
 
-    // triggers {
-    //     cron('1 * * * *')
-    //     //PollSCM('1 * * * *')
-    //     //upstream(upstreamProjects: 'job1,job2', threshold: hudson.model.Result.SUCCESS)
-    // }
-
     parameters {
         string(name: 'NAME', defaultValue: 'Mikhael', description: 'Siapa nama anda?')
         text(name: 'DESC', defaultValue: 'Ini adalah deskripsi', description: 'Masukkan deskripsi anda')
         booleanParam(name: 'FLAG', defaultValue: true, description: 'Apakah anda setuju?')
         choice(name: 'CHOICE', choices: ['Option 1', 'Option 2', 'Option 3'], description: 'Pilih salah satu opsi')
-        password(name: 'SECRET', defaultValue: 'secret', description: 'Masukkan password rahasia')
+        password(name: 'SECRET', description: 'Masukkan password rahasia')
     }
 
     options {
@@ -27,11 +21,7 @@ pipeline {
     stages {
 
         stage("Parameter") {
-            agent {
-                node {
-                    label "linux && java11"
-                }
-            }
+            agent { label "linux && java11" }
             steps {
                 echo "Nama Anda : ${params.NAME}"
                 echo "Deskripsi : ${params.DESC}"
@@ -48,17 +38,19 @@ pipeline {
                 echo "Start Build : ${env.BUILD_NUMBER}"
                 echo "Start Build : ${env.BUILD_ID}"
             }
-            stages{
-                stage("Prepare Java"){
-                    steps {
-                        echo "Prepare Java"
-                    }
-                }
-                stage("Prepare maven"){
-                    steps{
-                        echo "Prepare Maven"
-                    }
-                }
+        }
+
+        stage("Prepare Java") {
+            agent { label "linux && java11" }
+            steps {
+                echo "Prepare Java"
+            }
+        }
+
+        stage("Prepare Maven") {
+            agent { label "linux && java11" }
+            steps {
+                echo "Prepare Maven"
             }
         }
 
@@ -106,30 +98,38 @@ pipeline {
         }
 
         stage('Deploy') {
-            input{
-                message "Apakah anda yakin untuk ke deploy?"
-                ok "Yes, I'm sure"
-                submitter "admin, user1"
-                parameters{
-                    choice(name: 'TARGET_ENV', choices: ['Dev','QA','PROD'], description: 'Pilih target environment untuk deploy?')
-                }
-            }
             agent { label "linux && java11" }
             steps {
+                script {
+                    def userInput = input(
+                        message: "Apakah anda yakin untuk ke deploy?",
+                        ok: "Yes, I'm sure",
+                        submitter: "admin, user1",
+                        parameters: [
+                            choice(
+                                name: 'TARGET_ENV',
+                                choices: ['Dev','QA','PROD'],
+                                description: 'Pilih target environment untuk deploy'
+                            )
+                        ]
+                    )
+                    env.TARGET_ENV = userInput
+                }
+
                 echo "Hello Deploy"
                 sleep 5
-                echo "Bangun dari 5 detik"
-                echo "deploy ke environtment ${TARGET_ENV}"
+                echo "deploy ke environment ${env.TARGET_ENV}"
             }
         }
-        stage("Release"){
-            agent { label "linux && java11"}
-            when{
+
+        stage("Release") {
+            agent { label "linux && java11" }
+            when {
                 expression {
                     return params.FLAG
                 }
             }
-            steps{
+            steps {
                 echo "release aplikasi ke production"
             }
         }
