@@ -39,7 +39,7 @@ pipeline {
                             values 'macos'
                         }
                         axis{
-                            name 'ARCH',
+                            name 'ARCH'
                             values '32'
                         }
                     }
