@@ -7,6 +7,8 @@ pipeline {
 
     triggers {
         cron('1 * * * *')
+        //PollSCM('1 * * * *')
+        //upstream(upstreamProjects: 'job1,job2', threshold: hudson.model.Result.SUCCESS)
     }
 
     parameters {
