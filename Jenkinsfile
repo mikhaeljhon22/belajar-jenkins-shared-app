@@ -21,11 +21,10 @@ pipeline {
     stages {
 
         stage('Parallel Jobs') {
-            agent { label "linux && java11" }
 
             parallel {
-
                 stage("Parameter") {
+                    agent { label "linux && java11" }
                     steps {
                         echo "Nama Anda : ${params.NAME}"
                         echo "Deskripsi : ${params.DESC}"
@@ -36,6 +35,7 @@ pipeline {
                 }
 
                 stage("Prepare") {
+                    agent { label "linux && java11" }
                     steps {
                         echo "Start Jobs : ${env.JOB_NAME}"
                         echo "Start Build : ${env.BUILD_NUMBER}"
@@ -44,6 +44,7 @@ pipeline {
                 }
 
                 stage("Prepare Java") {
+                    agent { label "linux && java11" }
                     steps {
                         echo "Prepare Java"
                         sleep 5
@@ -51,6 +52,7 @@ pipeline {
                 }
 
                 stage("Prepare Maven") {
+                    agent { label "linux && java11" }
                     steps {
                         echo "Prepare Maven"
                         sleep 5
@@ -58,6 +60,7 @@ pipeline {
                 }
 
                 stage('Build') {
+                    agent { label "linux && java11" }
                     steps {
                         echo "Hello Build"
                         sleep 5
