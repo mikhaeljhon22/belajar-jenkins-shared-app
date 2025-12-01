@@ -110,6 +110,17 @@ pipeline {
                 echo "deploy ke environtment ${TARGET_ENV}"
             }
         }
+        stage("Release"){
+            agent { label "linux && java11"}
+            when{
+                expression {
+                    return params.FLAG
+                }
+            }
+            steps{
+                echo "release aplikasi ke production"
+            }
+        }
     }
 
     post {
