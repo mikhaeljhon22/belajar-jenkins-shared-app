@@ -9,7 +9,7 @@ pipeline{
         stage("Hello Groovy"){
             steps{
                 script{
-                    Output.hello(this,"groovy")
+                    Output.hello("groovy")
                 }
             }
         }
