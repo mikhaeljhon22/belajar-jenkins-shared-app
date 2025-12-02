@@ -49,5 +49,13 @@ pipeline{
                 }
             }
         }
+        stage("Library Resouce"){
+            steps{
+                script{
+                    def libraryResource = libraryResource("config/build.json")
+                    echo libraryResource
+                }
+            }
+        }
     }
 }
