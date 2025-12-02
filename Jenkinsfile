@@ -20,5 +20,13 @@ pipeline{
                 }
             }
         }
+        stage("Global Variable"){
+            steps{
+                script{
+                    echo(author.name())
+                    echo(author.channel())
+                }
+            }
+        }
     }
 }
