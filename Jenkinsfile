@@ -42,7 +42,7 @@ pipeline{
         stage("Hello Person"){
             steps{
                 script{
-                    hello.person([
+                    person.person([
                         firstName: "Zaman",
                         lastName: "Now"
                     ])
