@@ -5,9 +5,9 @@ import programmerzamannow.jenkins.Output;
 pipeline{
     agent any
      tools {
-        maven 'Maven3'
+        maven 'maven3'
     }
-    
+
     stages{
         stage("Hello Groovy"){
             steps{
